@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casamento de Victor e Isabelly</title>
+    <style>
+        /* Estilos básicos para deixar o site bonito e responsivo */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fcf9f2; /* Tom pastel elegante */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #e3d5ca;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+        h1 { margin: 0; font-size: 2.5em; color: #5a4a42; }
+        p.subtitle { font-size: 1.2em; color: #5a4a42; }
+        
+        /* O "Carrinho" de Presentes */
+        .grid-presentes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .cartao-presente {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+        }
+        .cartao-presente h3 { color: #d68c45; margin-top: 0; }
+        .preco { font-size: 1.5em; font-weight: bold; color: #4CAF50; margin: 10px 0; }
+        
+        /* Área do Pix e WhatsApp */
+        .chave-pix {
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+            word-wrap: break-word;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #25D366; /* Cor do WhatsApp */
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .btn:hover { background-color: #128C7E; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Victor & Isabelly</h1>
+        <p class="subtitle">Nossa lista de presentes e cotas para a nova fase!</p>
+    </header>
+
+    <div class="grid-presentes">
+        
+        <!-- PRESENTE 1 -->
+        <div class="cartao-presente">
+            <h3>Jantar Romântico na Lua de Mel</h3>
+            <p>Para comemorarmos com um bom filé mignon!</p>
+            <div class="preco">R$ 150,00</div>
+            
+            <p style="font-size: 0.9em; margin-bottom: 5px;">Pix Copia e Cola:</p>
+            <!-- Substitua o texto abaixo pelo seu código Pix Copia e Cola do banco -->
+            <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_SEU_CODIGO_AQUI</div>
+            
+            <!-- Substitua 5584999999999 pelo seu número (55 + DDD + Numero) -->
+            <a href="https://wa.me/5584987423087?text=Oi%20Victor!%20Acabei%20de%20enviar%20o%20Pix%20do%20Jantar%20Romântico!%20Segue%20o%20comprovante." class="btn" target="_blank">
+                Confirmar no WhatsApp
+            </a>
+        </div>
+
+        <!-- PRESENTE 2 -->
+        <div class="cartao-presente">
+            <h3>Cota para o Carro Novo</h3>
+            <p>Uma ajudinha para montarmos nossa garagem.</p>
+            <div class="preco">R$ 300,00</div>
+            
+            <p style="font-size: 0.9em; margin-bottom: 5px;">Pix Copia e Cola:</p>
+            <!-- Substitua o texto abaixo pelo seu código Pix Copia e Cola do banco -->
+            <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_SEU_CODIGO_AQUI</div>
+            
+            <!-- Substitua 5584999999999 pelo seu número (55 + DDD + Numero) -->
+            <a href="https://wa.me/5584999999999?text=Oi%20Victor!%20Acabei%20de%20enviar%20a%20cota%20do%20Carro!%20Segue%20o%20comprovante." class="btn" target="_blank">
+                Confirmar no WhatsApp
+            </a>
+        </div>
+
+        <!-- PRESENTE 3 -->
+        <div class="cartao-presente">
+            <h3>Utensílios para a Cozinha Nova</h3>
+            <p>Para equipar a casa e garantir ótimas receitas.</p>
+            <div class="preco">R$ 200,00</div>
+            
+            <p style="font-size: 0.9em; margin-bottom: 5px;">Pix Copia e Cola:</p>
+            <!-- Substitua o texto abaixo pelo seu código Pix Copia e Cola do banco -->
+            <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_SEU_CODIGO_AQUI</div>
+            
+            <!-- Substitua 5584999999999 pelo seu número (55 + DDD + Numero) -->
+            <a href="https://wa.me/5584999999999?text=Oi%20Victor!%20Acabei%20de%20enviar%20o%20Pix%20da%20Cozinha%20Nova!%20Segue%20o%20comprovante." class="btn" target="_blank">
+                Confirmar no WhatsApp
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>
