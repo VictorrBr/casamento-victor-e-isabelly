@@ -3,232 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casamento de Victor e Isabelly</title>
+    <title>Casamento de Victor e [Nome da Noiva]</title>
     <style>
-        /* Configurações Gerais com Imagem de Fundo */
+        /* Estilos Gerais */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Substitua a URL abaixo pela imagem de fundo que desejar */
-            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
+            background-color: #fcf9f2;
+            color: #4a4a4a;
             margin: 0;
             padding: 0;
-            text-align: center;
         }
-        
+
+        /* Cabeçalho com a Foto Principal */
         header {
-            background-color: rgba(227, 213, 202, 0.9); /* Tom pastel com transparência */
-            padding: 50px 20px;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            /* FOTO PRINCIPAL DE FUNDO DO TOPO - Troque o link abaixo */
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1920') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
         }
-        
-        h1 { margin: 0; font-size: 2.8em; color: #5a4a42; font-family: 'Georgia', serif; }
-        p.subtitle { font-size: 1.3em; color: #6b5b52; margin-top: 10px; }
-        
-        /* Grid de Presentes */
-        .grid-presentes {
+        header h1 { margin: 0; font-size: 3em; font-family: 'Georgia', serif; }
+        header p { font-size: 1.2em; letter-spacing: 2px; }
+
+        /* Menu de Abas */
+        .tab-menu {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto 60px auto;
+            background-color: #e3d5ca;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
+        .tab-menu button {
+            background: none;
+            border: none;
+            outline: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            color: #5a4a42;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        .tab-menu button:hover { background-color: #d6c5b8; }
+        .tab-menu button.active {
+            background-color: #fff;
+            border-bottom: 3px solid #b5835a;
+            color: #b5835a;
+        }
+
+        /* Conteúdo das Abas */
+        .tab-content {
+            display: none;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Elementos da Aba 1: História */
+        .historia-container {
+            text-align: center;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+        /* FOTO DA HISTÓRIA DO CASAL */
+        .historia-foto {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Elementos da Aba 2: Presentes */
+        .ferreira-costa-btn {
+            display: block;
+            background-color: #004282; /* Cor padrão Ferreira Costa */
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 40px;
+            transition: 0.2s;
+        }
+        .ferreira-costa-btn:hover { background-color: #002e5a; }
         
-        /* Cartão do Presente */
+        .grid-presentes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
         .cartao-presente {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            width: 320px;
-            overflow: hidden; /* Garante que a foto siga as bordas arredondadas */
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .cartao-presente:hover {
-            transform: translateY(-5px);
-        }
-        
-        /* Foto do Presente */
-        .foto-presente {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .conteudo-presente {
+            border-radius: 10px;
             padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        
-        .cartao-presente h3 { color: #5a4a42; margin: 0 0 10px 0; font-size: 1.4em; }
-        .cartao-presente p { color: #777; font-size: 0.95em; margin: 0 0 15px 0; height: 40px; overflow: hidden; }
-        .preco { font-size: 1.6em; font-weight: bold; color: #b5835a; margin: 15px 0; }
-        
-        /* Abas de Formas de Pagamento */
-        .opcoes-pagamento {
-            margin-top: 15px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
+        .cartao-presente img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
-        
-        /* Estilo da Chave Pix */
         .chave-pix {
-            background: #f8f9fa;
-            padding: 10px;
-            border: 1px dashed #b5835a;
-            border-radius: 5px;
+            background: #f1f1f1;
+            padding: 8px;
+            border: 1px dashed #ccc;
             font-family: monospace;
-            font-size: 0.85em;
+            font-size: 0.8em;
             word-wrap: break-word;
             margin: 10px 0;
-            text-align: left;
         }
-        
-        /* Botões */
-        .btn-credito {
-            display: block;
-            background-color: #5a4a42;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 0.9em;
-            margin: 10px 0;
-            transition: background 0.2s;
-        }
-        .btn-credito:hover { background-color: #443731; }
-        
         .btn-whats {
             display: block;
             background-color: #25D366;
             color: white;
+            padding: 10px;
             text-decoration: none;
-            padding: 12px;
             border-radius: 5px;
             font-weight: bold;
-            font-size: 0.95em;
-            margin-top: 15px;
-            transition: background 0.2s;
+            margin-top: 10px;
         }
-        .btn-whats:hover { background-color: #128C7E; }
-        
-        .divisor {
-            margin: 15px 0;
-            color: #aaa;
-            font-size: 0.8em;
-            position: relative;
+
+        /* Elementos da Aba 3: Cerimônia */
+        .cerimonia-info {
+            text-align: center;
+            margin-bottom: 30px;
         }
-        .divisor:before, .divisor:after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            width: 35%;
-            height: 1px;
-            background: #eee;
+        .cerimonia-info h2 { color: #b5835a; }
+        .mapa {
+            width: 100%;
+            height: 400px;
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .divisor:before { left: 0; }
-        .divisor:after { right: 0; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Victor & Sua Noiva</h1>
-        <p class="subtitle">Nossa Lista de Presentes & Cotas de Lua de Mel</p>
+        <h1>Victor & [Nome da Noiva]</h1>
+        <p>12 de Dezembro de 2026</p>
     </header>
 
-    <div class="grid-presentes">
-        
-        <!-- PRESENTE 1 -->
-        <div class="cartao-presente">
-            <!-- Foto do Presente (Substitua o link pela sua foto se quiser) -->
-            <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=600" alt="Jantar Romântico" class="foto-presente">
-            
-            <div class="conteudo-presente">
-                <h3>Jantar Romântico na Lua de Mel</h3>
-                <p>Para comemorarmos nossa união com um jantar especial.</p>
-                <div class="preco">R$ 150,00</div>
-                
-                <div class="opcoes-pagamento">
-                    <!-- Opção 1: PIX -->
-                    <span style="font-size: 0.85em; font-weight: bold; color: #5a4a42;">Opção 1: Pagar via Pix</span>
-                    <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_SEU_PIX_AQUI</div>
-                    
-                    <div class="divisor">OU</div>
-                    
-                    <!-- Opção 2: Cartão de Crédito -->
-                    <span style="font-size: 0.85em; font-weight: bold; color: #5a4a42;">Opção 2: Pagar no Cartão</span>
-                    <!-- Substitua o # pelo link de pagamento gerado no Mercado Pago/PagSeguro -->
-                    <a href="#" target="_blank" class="btn-credito">Pagar com Cartão de Crédito</a>
-                </div>
-                
-                <!-- Confirmação obrigatória para ambos -->
-                <!-- Substitua o número 5584999999999 pelo seu -->
-                <a href="https://wa.me/5584987423087?text=Oi%20Victor!%20Acabei%20de%20enviar%20o%20presente%20'Jantar%20Romântico'!%20Segue%20o%20comprovante." class="btn-whats" target="_blank">
-                    Confirmar no WhatsApp
-                </a>
-            </div>
-        </div>
-
-        <!-- PRESENTE 2 -->
-        <div class="cartao-presente">
-            <!-- Foto do Presente -->
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600" alt="Passeio de Barco" class="foto-presente">
-            
-            <div class="conteudo-presente">
-                <h3>Passeio de Barco</h3>
-                <p>Um dia inesquecível conhecendo as praias e paisagens.</p>
-                <div class="preco">R$ 250,00</div>
-                
-                <div class="opcoes-pagamento">
-                    <span style="font-size: 0.85em; font-weight: bold; color: #5a4a42;">Opção 1: Pagar via Pix</span>
-                    <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_SEU_PIX_AQUI</div>
-                    
-                    <div class="divisor">OU</div>
-                    
-                    <span style="font-size: 0.85em; font-weight: bold; color: #5a4a42;">Opção 2: Pagar no Cartão</span>
-                    <a href="#" target="_blank" class="btn-credito">Pagar com Cartão de Crédito</a>
-                </div>
-                
-                <a href="https://wa.me/5584987423087?text=Oi%20Victor!%20Acabei%20de%20enviar%20o%20presente%20'Passeio%20de%20Barco'!%20Segue%20o%20comprovante." class="btn-whats" target="_blank">
-                    Confirmar no WhatsApp
-                </a>
-            </div>
-        </div>
-
-        <!-- PRESENTE 3 -->
-        <div class="cartao-presente">
-            <!-- Foto do Presente -->
-            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=600" alt="Móveis e Decoração" class="foto-presente">
-            
-            <div class="conteudo-presente">
-                <h3>Ajuda para a Casa Nova</h3>
-                <p>Uma cota livre para nos ajudar a mobiliar nosso cantinho.</p>
-                <div class="preco">R$ 400,00</div>
-                
-                <div class="opcoes-pagamento">
-                    <span style="font-size: 0.85em; font-weight: bold; color: #5a4a42;">Opção 1: Pagar via Pix</span>
-                    <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_SEU_PIX_AQUI</div>
-                    
-                    <div class="divisor">OU</div>
-                    
-                    <span style="font-size: 0.85em; font-weight: bold; color: #5a4a42;">Opção 2: Pagar no Cartão</span>
-                    <a href="#" target="_blank" class="btn-credito">Pagar com Cartão de Crédito</a>
-                </div>
-                
-                <a href="https://wa.me/5584987423087?text=Oi%20Victor!%20Acabei%20de%20enviar%20o%20presente%20'Ajuda%20para%20a%20Casa%20Nova'!%20Segue%20o%20comprovante." class="btn-whats" target="_blank">
-                    Confirmar no WhatsApp
-                </a>
-            </div>
-        </div>
-
+    <!-- Botoes do Menu -->
+    <div class="tab-menu">
+        <button class="tab-link active" onclick="abrirAba(event, 'historia')">Nossa História</button>
+        <button class="tab-link" onclick="abrirAba(event, 'presentes')">Lista de Presentes</button>
+        <button class="tab-link" onclick="abrirAba(event, 'cerimonia')">Local e Horário</button>
     </div>
 
+    <!-- ABA 1: HISTÓRIA -->
+    <div id="historia" class="tab-content active">
+        <div class="historia-container">
+            <h2>Como tudo começou...</h2>
+            <!-- Troque o link abaixo pela foto de vocês -->
+            <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=800" alt="Foto do Casal" class="historia-foto">
+            <p>Escreva aqui um resumo bonito de como vocês se conheceram, os momentos que passaram juntos e a decisão de dar esse próximo grande passo.</p>
+            <p>Estamos muito felizes em poder compartilhar esse momento de alegria com as pessoas que mais amamos!</p>
+        </div>
+    </div>
+
+    <!-- ABA 2: PRESENTES -->
+    <div id="presentes" class="tab-content">
+        <h2 style="text-align: center;">Nossas Listas</h2>
+        <p style="text-align: center;">Vocês podem nos presentear com itens para a nossa casa nova ou contribuir via Pix para nossa lua de mel e experiências.</p>
+        
+        <!-- Botão Ferreira Costa -->
+        <!-- Troque o link '#' pelo link real da lista de vocês -->
+        <a href="LINK" target="_blank" class="ferreira-costa-btn">
+            Ver Lista na Ferreira Costa
+        </a>
+
+        <h3 style="text-align: center; margin-top: 40px; color: #b5835a;">Cotas em Dinheiro (Pix)</h3>
+        
+        <div class="grid-presentes">
+            <!-- Presente 1 -->
+            <div class="cartao-presente">
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=600" alt="Cozinha">
+                <h3>Kit para a Cozinha</h3>
+                <p>Para capricharmos nas receitas de filé mignon e nos assados de fim de semana na casa nova!</p>
+                <h4 style="color: #4CAF50;">R$ 150,00</h4>
+                <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_AQUI</div>
+                <a href="https://wa.me/55849991006658?text=Oi!%20Acabei%20de%20enviar%20o%20Pix%20do%20Kit%20Cozinha." target="_blank" class="btn-whats">Já fiz o Pix!</a>
+            </div>
+
+            <!-- Presente 2 -->
+            <div class="cartao-presente">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600" alt="Lua de Mel">
+                <h3>Passeio na Lua de Mel</h3>
+                <p>Uma ajudinha para curtirmos um dia incrível na nossa viagem.</p>
+                <h4 style="color: #4CAF50;">R$ 200,00</h4>
+                <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_AQUI</div>
+                <a href="https://wa.me/55849991006658?text=Oi!%20Acabei%20de%20enviar%20o%20Pix%20do%20Passeio." target="_blank" class="btn-whats">Já fiz o Pix!</a>
+            </div>
+            
+            <!-- Presente 3 -->
+            <div class="cartao-presente">
+                <img src="https://images.unsplash.com/photo-1498837167922-41c46b66c078?q=80&w=600" alt="Café">
+                <h3>Café da Manhã de Domingo</h3>
+                <p>Para começarmos o primeiro domingo de casados com pães de levain e um bom café.</p>
+                <h4 style="color: #4CAF50;">R$ 80,00</h4>
+                <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_AQUI</div>
+                <a href="https://wa.me/55849991006658?text=Oi!%20Acabei%20de%20enviar%20o%20Pix%20do%20Café." target="_blank" class="btn-whats">Já fiz o Pix!</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABA 3: CERIMÔNIA -->
+    <div id="cerimonia" class="tab-content">
+        <div class="cerimonia-info">
+            <h2>Quando e Onde?</h2>
+            <p><strong>Data:</strong> 12 de Dezembro de 2026</p>
+            <p><strong>Horário:</strong> 16:00 horas</p>
+            <p><strong>Local:</strong> Natal - RN</p>
+            <p>A cerimônia e a recepção ocorrerão no mesmo local. Aguardamos você para celebrar conosco!</p>
+        </div>
+        
+        <!-- MAPA DO GOOGLE -->
+        <!-- O link abaixo é um exemplo apontando para Natal. Você pode gerar um iframe específico no Google Maps do local exato depois. -->
+        <iframe class="mapa" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127027.81734293992!2d-35.28919632864692!3d-5.811805527375254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b2f8e1eb652d87%3A0x86b0dd14e0ffaf63!2sNatal%2C%20RN!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <!-- SCRIPT PARA AS ABAS FUNCIONAREM -->
+    <script>
+        function abrirAba(evento, idAba) {
+            var i, conteudo, links;
+
+            // Esconde todo o conteúdo das abas
+            conteudo = document.getElementsByClassName("tab-content");
+            for (i = 0; i < conteudo.length; i++) {
+                conteudo[i].style.display = "none";
+                conteudo[i].classList.remove("active");
+            }
+
+            // Remove a classe "active" dos botões do menu
+            links = document.getElementsByClassName("tab-link");
+            for (i = 0; i < links.length; i++) {
+                links[i].classList.remove("active");
+            }
+
+            // Mostra a aba atual e adiciona "active" no botão clicado
+            document.getElementById(idAba).style.display = "block";
+            document.getElementById(idAba).classList.add("active");
+            evento.currentTarget.classList.add("active");
+            
+            // Rola a página suavemente para o topo das abas ao clicar
+            window.scrollTo({
+                top: document.querySelector('.tab-menu').offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 </body>
 </html>
