@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casamento de Victor e Isabelly</title>
     <style>
+
+        /* Novo estilo para a caixa de Copiar Pix */
+        .caixa-copiar {
+            display: flex;
+            align-items: center;
+            background: #f1f1f1;
+            border: 1px dashed #b5835a;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 10px 0;
+        }
+        .chave-pix-texto {
+            flex-grow: 1;
+            font-family: monospace;
+            font-size: 0.8em;
+            color: #555;
+            /* As linhas abaixo escondem o excesso do texto com "..." para ficar mais bonito */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+            padding-left: 5px;
+        }
+        .btn-copiar {
+            background-color: #e3d5ca;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #5a4a42;
+            margin-left: 10px;
+            transition: 0.3s;
+            font-size: 0.9em;
+        }
+        .btn-copiar:hover { background-color: #d6c5b8; }
+        
         /* Estilos Gerais */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -215,7 +252,9 @@
                 <h3>Kit para a Cozinha</h3>
                 <p>Para capricharmos nas receitas de filé mignon e nos assados de fim de semana na casa nova!</p>
                 <h4 style="color: #4CAF50;">R$ 150,00</h4>
-                <div class="chave-pix">00020126580014BR.GOV.BCB.PIX...COLE_AQUI</div>
+                <div class="caixa-copiar">
+                    <span id="pix-1" class="chave-pix-texto">00020126580014BR.GOV.BCB.PIX...COLE_AQUI</span>
+                    <button onclick="copiarTexto('pix-1', this)" class="btn-copiar">Copiar</button>
                 <a href="https://wa.me/5584991006658?text=Oi!%20Acabei%20de%20enviar%20o%20Pix%20do%20Kit%20Cozinha." target="_blank" class="btn-whats">Já fiz o Pix!</a>
             </div>
 
