@@ -324,6 +324,29 @@
                 behavior: 'smooth'
             });
         }
+
+        // Função para Copiar o Pix
+        function copiarTexto(idElemento, botao) {
+            // Pega o texto do elemento escondido
+            var textoParaCopiar = document.getElementById(idElemento).innerText;
+            
+            // Usa a função do navegador para copiar para a área de transferência
+            navigator.clipboard.writeText(textoParaCopiar).then(function() {
+                // Muda o visual do botão para dar feedback ao convidado
+                botao.innerText = "Copiado!";
+                botao.style.backgroundColor = "#4CAF50";
+                botao.style.color = "white";
+                
+                // Volta ao normal depois de 2 segundos
+                setTimeout(function() {
+                    botao.innerText = "Copiar";
+                    botao.style.backgroundColor = "#e3d5ca";
+                    botao.style.color = "#5a4a42";
+                }, 2000);
+            }).catch(function(err) {
+                alert('Erro ao copiar. Tente selecionar o texto manualmente.');
+            });
+        }
     </script>
 </body>
 </html>
