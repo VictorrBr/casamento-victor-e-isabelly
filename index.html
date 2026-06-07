@@ -67,6 +67,7 @@
         .tab-menu {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap; /* NOVA LINHA */
             background-color: #e3d5ca;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: sticky;
@@ -198,6 +199,17 @@
             display: block; /* Transforma o mapa num bloco... */
             margin: 0 auto; /* ...e isso faz ele ficar perfeitamente no centro! */
         }
+
+        /* Ajuste do Menu para Celulares */
+        @media (max-width: 600px) {
+            .tab-menu button {
+                flex: 1 1 50%; /* Força 2 botões por linha */
+                padding: 12px 5px; /* Reduz um pouco o espaçamento interno */
+                font-size: 0.9em; /* Reduz levemente a fonte */
+                box-sizing: border-box; /* Garante que o tamanho fique perfeito */
+            }
+        }
+        
     </style>
 </head>
 <body>
@@ -212,6 +224,7 @@
         <button class="tab-link active" onclick="abrirAba(event, 'historia')">Nossa História</button>
         <button class="tab-link" onclick="abrirAba(event, 'presentes')">Lista de Presentes</button>
         <button class="tab-link" onclick="abrirAba(event, 'cerimonia')">Local e Horário</button>
+        <button class="tab-link" onclick="abrirAba(event, 'contato')">Contatos</button>
     </div>
 
     <!-- ABA 1: HISTÓRIA -->
@@ -422,6 +435,26 @@
         <iframe class="mapa" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3969.4867146482006!2d-35.21172502559701!3d-5.786707194195979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b300735705e409%3A0x49cf85127f829811!2sConvento%20Santo%20Ant%C3%B4nio%20Igreja%20do%20Galo!5e0!3m2!1spt-BR!2sbr!4v1780684547308!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 
+    <div id="contato" class="tab-content">
+        <h2 style="text-align: center; color: #b5835a;">Fale com a gente!</h2>
+        <p style="text-align: center;">Ficou com alguma dúvida sobre o casamento, sobre os presentes ou sobre como chegar? É só mandar uma mensagem!</p>
+
+        <div class="grid-presentes" style="margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            
+            <div class="cartao-presente">
+                <h3>Victor</h3>
+                <p>O noivo que cuida da TI e da planilha de convidados.</p>
+                <a href="https://wa.me/5584999999999" target="_blank" class="btn-whats">Mandar WhatsApp</a>
+            </div>
+
+            <div class="cartao-presente">
+                <h3>Isabelly</h3>
+                <p>A noiva que sabe de todos os detalhes do grande dia.</p>
+                <a href="https://wa.me/5584999999999" target="_blank" class="btn-whats">Mandar WhatsApp</a>
+            </div>
+
+        </div>
+    </div>
     
     <!-- SCRIPT PARA AS ABAS FUNCIONAREM -->
     <script>
