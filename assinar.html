@@ -6,7 +6,7 @@
 <title>Assine nossa foto</title>
 <style>
   body{font-family:'Segoe UI',sans-serif;background:#fcf9f2;color:#4a4a4a;margin:0;padding:20px}
-  .box{max-width:800px;margin:0 auto}
+  .box{max-width:1000px;margin:0 auto}
   h1{color:#b5835a;text-align:center;font-family:Georgia,serif}
   .card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 4px 8px rgba(0,0,0,.1);margin-bottom:20px}
   .valores{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
@@ -19,6 +19,11 @@
   .tinta div{height:100%;background:#b5835a;width:0%;transition:width .1s}
   #passo2{display:none}
   .pix{font-family:monospace;font-size:.8em;word-break:break-all;background:#f1f1f1;border:1px dashed #b5835a;padding:8px;border-radius:5px}
+  @media (max-width: 600px){
+  body{padding:8px}
+  #passo2{padding:10px 6px}
+  .box{max-width:100%}
+}
 </style>
 </head>
 <body>
