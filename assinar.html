@@ -65,7 +65,13 @@
     
     <b id="infoTinta"></b>
     <div class="tinta"><div id="barra"></div></div>
-    <canvas id="cv"></canvas>
+    <div id="area"><canvas id="cv"></canvas></div>
+    <div class="zoombar">
+      <button class="btn" onclick="zoomar(-0.5)">−</button>
+      <span id="zoomInfo">100%</span>
+      <button class="btn" onclick="zoomar(0.5)">+</button>
+      <button class="btn" id="btnModo" onclick="alternarModo()">✋ Mover</button>
+    </div>
     <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
       <input type="color" id="cor" value="#1a237e" style="height:40px">
       <button class="btn" onclick="desfazer()">Desfazer</button>
@@ -147,6 +153,23 @@ function liberar(){
 }
 
 /* ====== CANVAS ====== */
+
+let zoom = 1, modoMover = false;
+
+function zoomar(d){
+  zoom = Math.min(4, Math.max(1, zoom + d));
+  cv.style.width = (zoom * 100) + '%';
+  document.getElementById('area').style.maxHeight = zoom > 1 ? '70vh' : 'none';
+  document.getElementById('zoomInfo').textContent = Math.round(zoom * 100) + '%';
+}
+
+function alternarModo(){
+  modoMover = !modoMover;
+  cv.style.touchAction = modoMover ? 'auto' : 'none';
+  cv.style.cursor = modoMover ? 'grab' : 'crosshair';
+  document.getElementById('btnModo').textContent = modoMover ? '✏️ Desenhar' : '✋ Mover';
+}
+  
 function iniciarCanvas(){
   ALTURA = Math.round(LARGURA * img.height / img.width);
   cv.width = LARGURA; cv.height = ALTURA;
@@ -180,6 +203,7 @@ function posicao(e){
 }
 
 cv.addEventListener('pointerdown', e => {
+  if (modoMover || !liberado || tintaUsada >= tintaTotal) return;
   if (!liberado || tintaUsada >= tintaTotal) return;
   desenhando = true; cv.setPointerCapture(e.pointerId);
   tracoAtual = { cor: document.getElementById('cor').value, pts: [posicao(e)] };
