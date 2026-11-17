@@ -296,17 +296,18 @@ async function enviar(){
   } catch(err){ alert('Erro ao enviar: ' + err.message); }
 }
 
-async function carregar(){
-  const snap = await db.collection('assinaturas').orderBy('criadoEm').get();
-  salvas = snap.docs.map(d => {
-    const x = d.data();
-    x.tracos = x.tracos.map(t => {
-      const pts = []; for (let i=0;i<t.pts.length;i+=2) pts.push([t.pts[i], t.pts[i+1]]);
-      return {cor:t.cor, pts};
+function carregar(){
+  db.collection('assinaturas').orderBy('criadoEm').onSnapshot(snap => {
+    salvas = snap.docs.map(d => {
+      const x = d.data();
+      x.tracos = x.tracos.map(t => {
+        const pts = []; for (let i=0;i<t.pts.length;i+=2) pts.push([t.pts[i], t.pts[i+1]]);
+        return {cor:t.cor, pts};
+      });
+      return x;
     });
-    return x;
-  });
-  redesenhar();
+    redesenhar();
+  }, err => console.error(err));
 }
 
 function baixar(){
