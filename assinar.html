@@ -234,7 +234,6 @@ function posicao(e){
 cv.addEventListener('pointermove', e => {
   if (apagando){ apagarEm(posicao(e)); return; }
   if (!desenhando) return;
-  ...
   if (modo === 'mover' || !liberado) return;
   if (modo === 'borracha'){
     apagando = true; cv.setPointerCapture(e.pointerId);
