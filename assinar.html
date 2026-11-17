@@ -23,6 +23,9 @@
 </head>
 <body>
 <div class="box">
+  <a href="index.html" style="display:inline-block;margin-bottom:10px;color:#b5835a;text-decoration:none;font-weight:bold">
+  ← Voltar para o site
+</a>
   <h1>Assine nossa foto ✍️</h1>
 
   <!-- PASSO 1 -->
@@ -50,6 +53,7 @@
 
   <!-- PASSO 2 -->
   <div class="card" id="passo2">
+    
     <b id="infoTinta"></b>
     <div class="tinta"><div id="barra"></div></div>
     <canvas id="cv"></canvas>
@@ -60,6 +64,14 @@
     </div>
   </div>
 
+  <div class="card" id="passo3" style="display:none;text-align:center">
+  <h2 style="color:#b5835a">Obrigado! 💛</h2>
+  <p>Sua assinatura foi registrada. Ela vai aparecer na nossa foto!</p>
+  <a href="index.html" class="btn principal" style="display:inline-block;text-decoration:none">
+    Voltar para o site
+  </a>
+</div>
+  
   <div class="card">
     <b>Mural completo</b>
     <p style="font-size:.9em">As assinaturas de todos aparecem acima da foto.</p>
@@ -211,8 +223,9 @@ async function enviar(){
       tracos: meusTracos.map(t => ({cor:t.cor, pts:t.pts.flat()})), // Firestore não aceita array de array
       criadoEm: firebase.firestore.FieldValue.serverTimestamp()
     });
-    alert('Obrigado! Sua assinatura foi registrada 💛');
-    location.reload();
+    document.getElementById('passo2').style.display = 'none';
+    document.getElementById('passo3').style.display = 'block';
+    window.scrollTo({top: 0, behavior: 'smooth'});
   } catch(err){ alert('Erro ao enviar: ' + err.message); }
 }
 
