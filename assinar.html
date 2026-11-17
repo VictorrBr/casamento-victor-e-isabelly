@@ -29,6 +29,7 @@
 #area canvas{display:block;box-shadow:none;border-radius:0}
 .zoombar{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px}
 #zoomInfo{min-width:48px;text-align:center;font-weight:bold}
+#ferramentas .btn.sel{background:#b5835a;color:#fff}
 }
 </style>
 </head>
@@ -70,12 +71,16 @@
     <div id="area" style="width:100%;overflow:auto;position:relative;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,.15)">
       <canvas id="cv"></canvas>
     </div>
-    <div class="zoombar">
-      <button class="btn" onclick="zoomar(-0.5)">−</button>
-      <span id="zoomInfo">100%</span>
-      <button class="btn" onclick="zoomar(0.5)">+</button>
-      <button class="btn" id="btnModo" onclick="alternarModo()">✋ Mover</button>
-    </div>
+   <div class="zoombar">
+    <button class="btn" onclick="zoomar(-0.5)">−</button>
+    <span id="zoomInfo">100%</span>
+    <button class="btn" onclick="zoomar(0.5)">+</button>
+  </div>
+  <div class="zoombar" id="ferramentas">
+    <button class="btn sel" data-modo="desenhar" onclick="setModo('desenhar')">✏️ Desenhar</button>
+    <button class="btn" data-modo="borracha" onclick="setModo('borracha')">🧽 Borracha</button>
+    <button class="btn" data-modo="mover" onclick="setModo('mover')">✋ Mover</button>
+  </div>
     <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
       <input type="color" id="cor" value="#1a237e" style="height:40px">
       <button class="btn" onclick="desfazer()">Desfazer</button>
@@ -158,7 +163,8 @@ function liberar(){
 
 /* ====== CANVAS ====== */
 
-let zoom = 1, modoMover = false;
+let zoom = 1, modo = 'desenhar', apagando = false;
+const RAIO_BORRACHA = 30;   // tamanho da borracha (ajuste à vontade)
 
 function zoomar(d){
   zoom = Math.min(4, Math.max(1, zoom + d));
@@ -167,11 +173,30 @@ function zoomar(d){
   document.getElementById('zoomInfo').textContent = Math.round(zoom * 100) + '%';
 }
 
-function alternarModo(){
-  modoMover = !modoMover;
-  cv.style.touchAction = modoMover ? 'auto' : 'none';
-  cv.style.cursor = modoMover ? 'grab' : 'crosshair';
-  document.getElementById('btnModo').textContent = modoMover ? '✏️ Desenhar' : '✋ Mover';
+function setModo(m){
+  modo = m;
+  cv.style.touchAction = m === 'mover' ? 'auto' : 'none';
+  cv.style.cursor = m === 'mover' ? 'grab' : (m === 'borracha' ? 'cell' : 'crosshair');
+  document.querySelectorAll('#ferramentas .btn')
+    .forEach(b => b.classList.toggle('sel', b.dataset.modo === m));
+}
+
+function apagarEm(p){
+  const raio = RAIO_BORRACHA / zoom;   // com zoom, a borracha fica mais precisa
+  const novos = [];
+  meusTracos.forEach(t => {
+    let atual = [];
+    t.pts.forEach(q => {
+      if (Math.hypot(q[0]-p[0], q[1]-p[1]) <= raio){
+        if (atual.length) novos.push({cor:t.cor, pts:atual});
+        atual = [];
+      } else atual.push(q);
+    });
+    if (atual.length) novos.push({cor:t.cor, pts:atual});
+  });
+  meusTracos = novos;
+  tintaUsada = meusTracos.reduce((s,t) => s + comprimento(t), 0);  // devolve a tinta
+  redesenhar(); atualizarTinta();
 }
   
 function iniciarCanvas(){
@@ -206,9 +231,17 @@ function posicao(e){
            Math.round((e.clientY - r.top) * ALTURA / r.height) ];
 }
 
-cv.addEventListener('pointerdown', e => {
-  if (modoMover || !liberado || tintaUsada >= tintaTotal) return;
-  if (!liberado || tintaUsada >= tintaTotal) return;
+cv.addEventListener('pointermove', e => {
+  if (apagando){ apagarEm(posicao(e)); return; }
+  if (!desenhando) return;
+  ...
+  if (modo === 'mover' || !liberado) return;
+  if (modo === 'borracha'){
+    apagando = true; cv.setPointerCapture(e.pointerId);
+    apagarEm(posicao(e));
+    return;
+  }
+  if (tintaUsada >= tintaTotal) return;
   desenhando = true; cv.setPointerCapture(e.pointerId);
   tracoAtual = { cor: document.getElementById('cor').value, pts: [posicao(e)] };
   meusTracos.push(tracoAtual);
@@ -227,7 +260,7 @@ cv.addEventListener('pointermove', e => {
 });
 
 ['pointerup','pointercancel'].forEach(ev =>
-  cv.addEventListener(ev, () => desenhando = false));
+  cv.addEventListener(ev, () => { desenhando = false; apagando = false; }));
 
 function comprimento(t){
   let s = 0;
