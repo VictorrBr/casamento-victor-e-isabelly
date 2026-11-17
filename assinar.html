@@ -30,6 +30,23 @@
 .zoombar{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px}
 #zoomInfo{min-width:48px;text-align:center;font-weight:bold}
 #ferramentas .btn.sel{background:#b5835a;color:#fff}
+
+/* Estilo para a barra deslizante de espessura */
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  background: #f9f6f0;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.slider-container input[type=range] {
+  flex-grow: 1;
+  accent-color: #b5835a;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -43,8 +60,8 @@
   <div class="card" id="passo1">
     <h3>Como funciona</h3>
     <p>Contribua com qualquer valor via Pix e deixe sua mensagem na nossa foto.
-       Quanto maior a contribuição, mais "tinta" você ganha para escrever!
-       No final, vamos imprimir a foto com as mensagens de todo mundo. 💛</p>
+        Quanto maior a contribuição, mais "tinta" você ganha para escrever!
+        No final, vamos imprimir a foto com as mensagens de todo mundo. 💛</p>
 
     <b>1. Escolha o valor:</b>
     <div class="valores" id="valores"></div>
@@ -75,11 +92,21 @@
     <span id="zoomInfo">100%</span>
     <button class="btn" onclick="zoomar(0.5)">+</button>
   </div>
+  
+  <!-- BARRA DE FERRAMENTAS -->
   <div class="zoombar" id="ferramentas">
     <button class="btn sel" data-modo="desenhar" onclick="setModo('desenhar')">✏️ Desenhar</button>
     <button class="btn" data-modo="borracha" onclick="setModo('borracha')">🧽 Borracha</button>
     <button class="btn" data-modo="mover" onclick="setModo('mover')">✋ Mover</button>
   </div>
+
+  <!-- CONTROLE DESLIZANTE DE ESPESSURA -->
+  <div class="slider-container">
+    <span>Espessura:</span>
+    <input type="range" id="rangeEspessura" min="1" max="25" value="4" oninput="atualizarEspessura(this.value)">
+    <span id="valorEspessura" style="font-weight:bold; min-width:35px; text-align:right;">4px</span>
+  </div>
+
     <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
       <input type="color" id="cor" value="#1a237e" style="height:40px">
       <button class="btn" onclick="desfazer()">Desfazer</button>
@@ -107,15 +134,14 @@
 <script>
 /* ====== CONFIGURAÇÕES ====== */
 firebase.initializeApp({
-  // COLE AQUI o firebaseConfig do seu projeto
   apiKey: "AIzaSyDct29AjhD34zo0oMkkpyywnR2us-8EhzY", authDomain: "casamento-victor-isabelly.firebaseapp.com", projectId: "casamento-victor-isabelly"
 });
 const db = firebase.firestore();
 
 const FOTO = "foto_assinatura.jpeg";
-const TINTA_POR_REAL = 40;      // pixels de traço por R$1 (ajuste à vontade)
-const LARGURA = 1000;           // resolução interna do canvas
-const ESPESSURA = 4;
+const TINTA_POR_REAL = 40;       // pixels de traço por R$1
+const LARGURA = 1000;            // resolução interna do canvas
+let espessuraAtual = 4;          // Espessura dinâmica inicial
 const VALORES = [10, 20, 40, 60, 100, 150, 200, 500];
 
 /* ====== ESTADO ====== */
@@ -163,7 +189,7 @@ function liberar(){
 /* ====== CANVAS ====== */
 
 let zoom = 1, modo = 'desenhar', apagando = false;
-const RAIO_BORRACHA = 30;   // tamanho da borracha (ajuste à vontade)
+const RAIO_BORRACHA = 30;   // tamanho da borracha
 
 function zoomar(d){
   zoom = Math.min(4, Math.max(1, zoom + d));
@@ -180,21 +206,26 @@ function setModo(m){
     .forEach(b => b.classList.toggle('sel', b.dataset.modo === m));
 }
 
+function atualizarEspessura(val){
+  espessuraAtual = parseInt(val);
+  document.getElementById('valorEspessura').textContent = val + 'px';
+}
+
 function apagarEm(p){
-  const raio = RAIO_BORRACHA / zoom;   // com zoom, a borracha fica mais precisa
+  const raio = RAIO_BORRACHA / zoom;
   const novos = [];
   meusTracos.forEach(t => {
     let atual = [];
     t.pts.forEach(q => {
       if (Math.hypot(q[0]-p[0], q[1]-p[1]) <= raio){
-        if (atual.length) novos.push({cor:t.cor, pts:atual});
+        if (atual.length) novos.push({cor: t.cor, esp: t.esp, pts: atual});
         atual = [];
       } else atual.push(q);
     });
-    if (atual.length) novos.push({cor:t.cor, pts:atual});
+    if (atual.length) novos.push({cor: t.cor, esp: t.esp, pts: atual});
   });
   meusTracos = novos;
-  tintaUsada = meusTracos.reduce((s,t) => s + comprimento(t), 0);  // devolve a tinta
+  tintaUsada = meusTracos.reduce((s,t) => s + comprimento(t), 0);
   redesenhar(); atualizarTinta();
 }
   
@@ -207,7 +238,8 @@ function iniciarCanvas(){
 function desenharTraco(t, alpha=1){
   if (t.pts.length < 1) return;
   ctx.globalAlpha = alpha;
-  ctx.strokeStyle = t.cor; ctx.lineWidth = ESPESSURA;
+  ctx.strokeStyle = t.cor; 
+  ctx.lineWidth = t.esp || 4; 
   ctx.lineCap = 'round'; ctx.lineJoin = 'round';
   ctx.beginPath();
   ctx.moveTo(t.pts[0][0], t.pts[0][1]);
@@ -239,7 +271,11 @@ cv.addEventListener('pointerdown', e => {
   }
   if (tintaUsada >= tintaTotal) return;
   desenhando = true; cv.setPointerCapture(e.pointerId);
-  tracoAtual = { cor: document.getElementById('cor').value, pts: [posicao(e)] };
+  tracoAtual = { 
+    cor: document.getElementById('cor').value, 
+    esp: espessuraAtual, 
+    pts: [posicao(e)] 
+  };
   meusTracos.push(tracoAtual);
 });
 
@@ -249,8 +285,8 @@ cv.addEventListener('pointermove', e => {
   const p = posicao(e);
   const ult = tracoAtual.pts[tracoAtual.pts.length-1];
   const d = Math.hypot(p[0]-ult[0], p[1]-ult[1]);
-  if (d < 3) return;                              // reduz pontos
-  if (tintaUsada + d > tintaTotal) { desenhando = false; return; }  // acabou a tinta
+  if (d < 3) return;                             
+  if (tintaUsada + d > tintaTotal) { desenhando = false; return; }  
   tintaUsada += d;
   tracoAtual.pts.push(p);
   redesenhar(); atualizarTinta();
@@ -287,7 +323,7 @@ async function enviar(){
     await db.collection('assinaturas').add({
       nome: document.getElementById('nome').value.trim(),
       valor: valor,
-      tracos: meusTracos.map(t => ({cor:t.cor, pts:t.pts.flat()})), // Firestore não aceita array de array
+      tracos: meusTracos.map(t => ({cor: t.cor, esp: t.esp, pts: t.pts.flat()})),
       criadoEm: firebase.firestore.FieldValue.serverTimestamp()
     });
     document.getElementById('passo2').style.display = 'none';
@@ -302,7 +338,7 @@ function carregar(){
       const x = d.data();
       x.tracos = x.tracos.map(t => {
         const pts = []; for (let i=0;i<t.pts.length;i+=2) pts.push([t.pts[i], t.pts[i+1]]);
-        return {cor:t.cor, pts};
+        return { cor: t.cor, esp: t.esp || 4, pts };
       });
       return x;
     });
